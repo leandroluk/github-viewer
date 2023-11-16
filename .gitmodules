@@ -1,6 +1,8 @@
 [submodule "api"]
 	path = api
 	url = https://github.com/leandroluk/github-viewer-api.git
+	branch = dev
 [submodule "web"]
 	path = web
 	url = https://github.com/leandroluk/github-viewer-web.git
+	branch = dev
