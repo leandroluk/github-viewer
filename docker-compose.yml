@@ -1,0 +1,36 @@
+version: '3'
+
+networks:
+  github-viewer:
+    name: github-viewer
+
+services:
+  github-viewer-postgres:
+    hostname: github-viewer-postgres
+    container_name: github-viewer-postgres
+    extends:
+      file: ./api/docker-compose.yml
+      service: github-viewer-postgres
+    volumes: [ './api/db.sql:/docker-entrypoint-initdb.d/db.sql' ]
+    networks:
+      - github-viewer
+
+  github-viewer-api:
+    build: 
+      context: ./api
+      dockerfile: ./Dockerfile
+    hostname: github-viewer-api
+    container_name: github-viewer-api
+    ports: [ '3001:3000' ]
+    environment:
+      DB_POSTGRES: postgresql://postgres:postgres@github-viewer-postgres:5432/github-viewer
+    healthcheck:
+      test: curl --fail http://localhost:5000/ || exit 1
+      interval: 10s
+      timeout: 5s
+      start_period: 10s
+    depends_on:
+      github-viewer-postgres:
+        condition: service_healthy
+    networks:
+      - github-viewer
