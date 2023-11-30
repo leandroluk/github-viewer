@@ -19,5 +19,8 @@
     "name": "Leandro Santiago Gomes",
     "url": "https://www.linkedin.com/in/leandroluk/"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "8.2.2"
+  }
 }
